@@ -1,16 +1,20 @@
 package cep;
 
-import java.awt.EventQueue;
-
-import javax.swing.JDialog;
-import java.awt.Toolkit;
-import javax.swing.JLabel;
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import java.awt.Cursor;
-import java.awt.event.ActionListener;
+import java.awt.Desktop;
+import java.awt.EventQueue;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Sobre extends JDialog {
 
@@ -37,51 +41,75 @@ public class Sobre extends JDialog {
 	 * Create the dialog.
 	 */
 	public Sobre() {
+		setModal(true);
 		setResizable(false);
 		setTitle("Sobre");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/home.png")));
-		setBounds(100, 100, 450, 300);
+		setBounds(150, 150, 450, 300);
 		getContentPane().setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Buscar CEP - Versão 1.0");
 		lblNewLabel.setBounds(10, 11, 228, 14);
 		getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("@Author Carlos Marques");
 		lblNewLabel_1.setBounds(10, 36, 228, 14);
 		getContentPane().add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Web Service:");
 		lblNewLabel_2.setBounds(10, 61, 128, 14);
 		getContentPane().add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("markdev.com.br");
-		lblNewLabel_3.setForeground(SystemColor.textHighlight);
-		lblNewLabel_3.setBounds(106, 61, 160, 14);
-		getContentPane().add(lblNewLabel_3);
-		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setToolTipText("Projeto");
-		btnNewButton.setIcon(new ImageIcon(Sobre.class.getResource("/img/github.png")));
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setBorder(null);
-		btnNewButton.setBackground(SystemColor.control);
-		btnNewButton.setBounds(90, 202, 48, 48);
-		getContentPane().add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+
+		JLabel lblWebService = new JLabel("markdev.com.br");
+		lblWebService.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				link("https://republicavirtual.com.br/");
 			}
 		});
-		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_1.setIcon(new ImageIcon(Sobre.class.getResource("/img/youtube.png")));
-		btnNewButton_1.setToolTipText("Playlist");
-		btnNewButton_1.setBorder(null);
-		btnNewButton_1.setBackground(SystemColor.control);
-		btnNewButton_1.setBounds(22, 202, 48, 48);
-		getContentPane().add(btnNewButton_1);
+		lblWebService.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblWebService.setForeground(SystemColor.textHighlight);
+		lblWebService.setBounds(132, 61, 160, 14);
+		getContentPane().add(lblWebService);
+
+		JButton btnGithub = new JButton("");
+		btnGithub.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				link("https://github.com/carloscmp");
+			}
+		});
+		btnGithub.setToolTipText("Projeto");
+		btnGithub.setIcon(new ImageIcon(Sobre.class.getResource("/img/github.png")));
+		btnGithub.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnGithub.setBorder(null);
+		btnGithub.setBackground(SystemColor.control);
+		btnGithub.setBounds(90, 202, 48, 48);
+		getContentPane().add(btnGithub);
+
+		JButton btnYoutube = new JButton("");
+		btnYoutube.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				link("https://www.youtube.com/@carlos_marques");
+			}
+		});
+		btnYoutube.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnYoutube.setIcon(new ImageIcon(Sobre.class.getResource("/img/youtube.png")));
+		btnYoutube.setToolTipText("Playlist");
+		btnYoutube.setBorder(null);
+		btnYoutube.setBackground(SystemColor.control);
+		btnYoutube.setBounds(22, 202, 48, 48);
+		getContentPane().add(btnYoutube);
 
 	}
 
+	// método responsavel por abrir links externos
+	private void link(String site) {
+		Desktop desktop = Desktop.getDesktop();
+		try {
+			URI uri = new URI(site);
+			desktop.browse(uri);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
